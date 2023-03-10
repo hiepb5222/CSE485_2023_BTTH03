@@ -1,0 +1,20 @@
+{
+    "name": "vendor/name",
+    "autoload": {
+        "psr-4": {
+            "Vendor\\Name\\": "src/",
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "hoang hiep",
+            "email": "1951060695@e.tlu.edu.vn"
+        }
+    ],
+    "require": {
+        "phpunit/phpunit": "^9.5",
+        "twig/twig": "^3.5",
+        "phpmailer/phpmailer": "^6.8"
+    }
+}
