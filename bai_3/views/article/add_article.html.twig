@@ -1,0 +1,59 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block content %}
+        <!-- <h3 class="text-center text-uppercase mb-3 text-primary">CẢM NHẬN VỀ BÀI HÁT</h3> -->
+        <div class="row">
+            <div class="col-sm">
+                <h3 class="text-center text-uppercase fw-bold">Thêm mới bài viết</h3>
+                <form action="./index.php?controller=article&action=store" method="post"  enctype="multipart/form-data">
+                    <div class="input-group mt-3 mb-3">
+                        <span class="input-group-text" style="width: 100px" id="lblTieude">Tiêu đề</span>
+                        <input type="text" class="form-control" required name="txtTieude">
+                    </div>
+                    <div class="input-group mt-3 mb-3">
+                        <span class="input-group-text" style="width: 100px" id="lblBaihat">Tên bài hát</span>
+                        <input type="text" class="form-control"  required name="txtBaihat" >
+                    </div>
+                    <div class="input-group mt-3 mb-3">
+                        <span class="input-group-text" style="width: 100px" id="lblTheloai">Tên thể loại</span>
+                        <select class="form-select" aria-label="Default select example" id="ten_tloai" name="txtTheloai" >
+                        {% for category in categories %}
+							<option value='{{category.ma_tloai}}'>{{category.ten_tloai }}</option>
+						{% endfor %}
+                       
+                            </select>
+                    </div>
+                    <div class="input-group mt-3 mb-3">
+                        <span class="input-group-text" style="width: 100px" id="lblTomtat">Tóm tắt</span>
+                        <input type="text" class="form-control"required name="txtTomtat" >
+                    </div>
+                    <div class="input-group mt-3 mb-3">
+                        <span class="input-group-text" style="width: 100px" d="lblNoidung">Nội dung </span>
+                        <input type="text" class="form-control"  required name="txtNoidung" >
+                    </div>
+                    <div class="input-group mt-3 mb-3">
+                        <span class="input-group-text" style="width: 100px" id="lblTacGia">Tác giả</span>
+                        <select class="form-select" aria-label="Default select example" id="ten_tgia" name="txtTacgia" >
+                        {% for author in authors %}
+							<option value='{{author.ma_tgia}}'>{{author.ten_tgia }}</option>
+						{% endfor %}
+                            </select>
+
+                    </div>
+                    <!-- <div class="input-group mt-3 mb-3">
+                        <span class="input-group-text" id="lblNgayViet">Ngày Viết</span>
+                        <input type="text" class="form-control" name="txtNgayviet" >
+                    </div> -->
+                    <div class="input-group mt-3 mb-3">
+                        <span class="input-group-text" style="width: 100px" id="lblHinhanh"> Hình ảnh</span>
+                        <input type="file" class="form-control" name="txtHinhanh" >
+                    </div>
+
+                    <div class="form-group  float-end ">
+                        <input type="submit" value="Thêm" name="submit" class="btn btn-success">
+                        <a href="./index.php?controller=article&action=list" class="btn btn-warning ">Quay lại</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endblock %}
