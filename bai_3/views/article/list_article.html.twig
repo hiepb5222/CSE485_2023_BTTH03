@@ -30,36 +30,36 @@
                                     {{count}}
                                 </th>
                                 <td>
-                                    {{article.tieude}}
+                                    {{article.title}}
                                 </td>
                                 <td>
-                                    {{article.ten_bhat}}
+                                    {{article.song_name}}
                                 </td>
                                 <td>
-                                    {{article.ten_tloai}}
+                                    {{article.cat_name}}
                                 </td>
                                 <td>
-                                    {{article.tomtat}}
+                                    {{article.summary}}
                                 </td>
                                 <td>
-                                    {{article.noidung}}
+                                    {{article.content}}
                                 </td>
                                 <td>
-                                    {{article.tacgia}}
+                                    {{article.author_name}}
                                 </td>
                                 <td>
-                                    {{article.ngayviet}}
+                                    {{article.date}}
                                 </td>
 
                                 <td>
 
-                                    <img style="width: 100px;" src="/CSE485_2023_BTTH03/bai_3/views/images/songs/{{article.hinhanh}}">
+                                    <img style="width: 100px;" src="/CSE485_2023_BTTH03/bai_3/views/image/songs/{{article.image}}">
                                 </td>
                                 <td>
-                                    <a href="index.php?controller=article&action=edit&id={{article.ma_bviet}}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a href="index.php?controller=article&action=edit&sid={{article.article_id}}"><i class="fa-solid fa-pen-to-square"></i></a>
                                 </td>
                                 <td>
-                                    <a onclick="return confirm('Bạn có muốn xóa không');" href="/CSE485_2023_BTTH03/bai_3/index.php?controller=article&action=delete&id={{article.ma_bviet}}"><i class="fa-solid fa-trash"></i></a>
+                                    <a onclick="return confirm('Bạn có muốn xóa không');" href="/CSE485_2023_BTTH03/bai_3/index.php?controller=article&action=delete&sid={{article.article_id}}"><i class="fa-solid fa-trash"></i></a>
                                 </td>
                             </tr>
                     		{% endfor %}

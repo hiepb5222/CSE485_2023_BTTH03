@@ -1,5 +1,8 @@
 <?php
 require "services/AuthorService.php";
+require_once 'vendor/autoload.php';
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 class AuthorController
 {
     // Hàm xử lý hành động index
@@ -28,13 +31,16 @@ class AuthorController
             $hinhanh=html_escape($_FILES['hinh_tgia']['name']);
             $hinhanh_tmp=html_escape($_FILES['hinh_tgia']['tmp_name']);
             $result = $authorService -> addAuthor($_POST['ten_tgia'], $hinhanh);
-            $target='C:/xampp/htdocs/CSE485_2023_BTTH02/views/image/songs/'.basename($_FILES['hinh_tgia']['name']);
+            $target='C:/xampp/htdocs/CSE485_2023_BTTH03/bai_3/views/image/songs/'.basename($_FILES['hinh_tgia']['name']);
             move_uploaded_file($hinhanh_tmp, $target);
             if($result) {
                 header('location: index.php?controller=author&action=list');
             }
         }
-        include "views/author/add_author.php";
+        $loader = new FilesystemLoader('views');
+        $twig = new Environment($loader);
+        $content = $twig->load('author/add_author.html.twig');
+        echo $content->render();
     }
 
     public function list()
@@ -44,14 +50,24 @@ class AuthorController
         $authors = $authorService -> getAllAuthors();
         // echo "Tương tác với Services/Models from Article";
         // Nhiệm vụ 2: Tương tác với View
-        include "views/author/list_author.php";
+        $loader = new FilesystemLoader('views');
+        $twig = new Environment($loader);
+        $content = $twig->load('author/list_author.html.twig');
+        echo $content->render(array(
+            'authors' => $authors,
+        ));
     }
 
     public function view_edit()
     {
         $authorService = new AuthorService();
-        $author = $authorService->getAuthorbyID($_GET['id']);
-        include "views/author/edit_author.php";
+        $findAuthor = $authorService->getAuthorbyID($_GET['id']);
+        $loader = new FilesystemLoader('views');
+        $twig = new Environment($loader);
+        $content = $twig->load('author/edit_author.html.twig');
+        echo $content->render(array(
+             'findAuthor' =>$findAuthor
+            ));
     }
 
     public function edit()
@@ -75,7 +91,7 @@ class AuthorController
             $hinhanh=html_escape($_FILES['txtHinhanhtgia']['name']);
             $hinhanh_tmp=html_escape($_FILES['txtHinhanhtgia']['tmp_name']);
         }
-        if(isset($_POST['submit'])) {
+        if(isset($_POST['save'])) {
             $result = $authorService -> editAuthor($_POST['txtAuthorId'], $_POST['txtAuthorName'], $hinhanh);
             if($result) {
                 header('location:index.php?controller=author&action=list');
@@ -93,7 +109,7 @@ class AuthorController
                 header('location:index.php?controller=author&action=list');
             }
         }
-        include "views/author/list_author.php";
+        return $this->list();
     }
 
 

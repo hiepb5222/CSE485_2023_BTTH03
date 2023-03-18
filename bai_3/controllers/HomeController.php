@@ -2,7 +2,10 @@
 require_once "services/ArticleService.php";
 require_once "services/MemberService.php";
 require "controllers/BaseController.php";
-class HomeController extends BaseController
+require_once 'vendor/autoload.php';
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+class HomeController
 {
     // Hàm xử lý hành động index
     public function index()
@@ -11,24 +14,27 @@ class HomeController extends BaseController
         $articelService = new ArticleService();
         $articles = $articelService->getAllArticles();
         // Nhiệm vụ 2: Tương tác với View
-        return $this->view(
-            "home.index", [
-            'articles'=>$articles,
-            ]
-        );
+        $loader = new FilesystemLoader('views');
+        $twig = new Environment($loader);
+        $content = $twig->load('home/index.html.twig');
+        echo $content->render(array(            
+            'articles' => $articles
+            ));
     }
     public function detail()
     {
         // Nhiệm vụ 1: Tương tác với Services/Models
         $id=$_GET["sid"];
         $articelService = new ArticleService();
-        $articleA = $articelService->getArticlebyID($id);
+        $findArticle = $articelService->getArticlebyID($id);
         // Nhiệm vụ 2: Tương tác với View
-        return $this->view(
-            "home.detail", [
-            'articleA'=>$articleA,
-            ]
-        );
+        $loader = new FilesystemLoader('views');
+        $twig = new Environment($loader);
+        $content = $twig->load('home/detail.html.twig');
+        echo $content->render(array(            
+            'findArticle' => $findArticle
+            ));
+    
     }
 
     public function login()
@@ -45,7 +51,7 @@ class HomeController extends BaseController
                 if ($pass_hash = $password) {
                     if ($role == '1') {
                         $_SESSION['admin'] = $_POST['username'];
-                        header('location:/CSE485_2023_BTTH02/index.php?controller=admin&action=list');
+                        header('location:/CSE485_2023_BTTH03/bai_3/index.php?controller=admin&action=list');
                     } else {
                         echo 'mật khẩu không chính xác';
                         // echo $users[0]->getPass();
@@ -54,14 +60,17 @@ class HomeController extends BaseController
             }
 
         }
-        include "views/home/login.php";
+        $loader = new FilesystemLoader('views');
+        $twig = new Environment($loader);
+        $content = $twig->load('home/login.html.twig');
+       
     }
     public function logout()
     {
         session_start();
         unset($_SESSION['admin']);
         session_destroy();
-        header("Location:/CSE485_2023_BTTH02/index.php?controller=home&action=login");
+        header("Location:/CSE485_2023_BTTH03/bai_3/index.php?controller=home&action=login");
         exit;
     }
 }

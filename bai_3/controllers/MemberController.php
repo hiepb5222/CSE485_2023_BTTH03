@@ -1,6 +1,11 @@
 <?php
-require "./configs/sendmail.php";
+// require "./configs/sendmail.php";
+require "./configs/MyEmailServer.php";
 require "services/MemberService.php";
+require_once 'vendor/autoload.php';
+require './configs/EmailSender.php';
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 class MemberController
 {
 
@@ -16,16 +21,31 @@ class MemberController
     function home()
     {
         $memberService = new MemberService();
-        include "views/home/login.php";
+        $loader = new FilesystemLoader('views');
+        $twig = new Environment($loader);
+        $content = $twig->load('home/login.html.twig');
+        echo $content->render();
     }
     function signup()
     {
         $memberService = new MemberService();
-        include "views/home/signup.php";
+        $loader = new FilesystemLoader('views');
+        $twig = new Environment($loader);
+        $content = $twig->load('home/signup.html.twig');
+        echo $content->render();
     }function signin()
     {   
         $memberService = new MemberService();
-        include "views/home/signup.php";
+        $loader = new FilesystemLoader('views');
+        $twig = new Environment($loader);
+        $content = $twig->load('home/signup.html.twig');
+        echo $content->render();
+    }
+    public function CheckEmail(){
+        $memberService = new MemberService();
+        if (isset($_GET['code'])) {
+            $result = $memberService->CheckEmail($_GET['code']);
+        }
     }
     public function resigter()
     {
@@ -45,6 +65,8 @@ class MemberController
             $user = html_escape($_POST['txtUser']);
             $email = html_escape($_POST['txtEmail']);
             $pass = html_escape($_POST['txtPass']);
+            $user_hash = md5(uniqid(rand(), true));
+            $pass_hash = password_hash($pass, PASSWORD_DEFAULT);
 
             try {
                 if ($_POST['txtPass'] !== $_POST['txtResetPass']) {
@@ -71,20 +93,17 @@ class MemberController
                                         $message = "Pass không quá 255 ký tự";
                                         echo "<script>alert('$message');</script>";
                                     } else {
-                                        if (send($email)) {
-                                            // Hash mật khẩu
-                                            $message = "Đăng ký thành công";
-                                            echo "<script>alert('$message');</script>";
-                                            $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
-                                            $result = $memberService->signupMember($name, $email, $user,  $hashed_password, 0);
-
+                                        $emailServer = new MyEmailServer();
+                                        $emailSender = new EmailSender($emailServer);
+                                        $emailSender->send("hatbaynd01@gmail.com", "Activation", "http://localhost/cse485_2023_btth03/bai_3/index.php?controller=member&action=CheckEmail?code=".$user_hash);
+                                        $result = $memberService->signupMember($name, $user, $email,$pass, $user_hash, $pass_hash);
                                             if ($result) {
-                                                header('location:/CSE485_2023_BTTH02/index.php?controller=member&action=home');
+                                                echo $emailSender;
                                             } else {
                                                 echo "Email could not be sent.";
                                             }
                                         }
-                                    }
+                                    
                                 }
                             }
                         }

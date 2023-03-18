@@ -15,13 +15,13 @@ function send($mailR)
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'duchai2211@gmail.com'; // Replace with your Gmail email address
-        $mail->Password = 'zmmfierxsfbonjzp';  // Replace with your Gmail password or app-specific password
+        $mail->Username = 'quochiep1406@gmail.com'; // Replace with your Gmail email address
+        $mail->Password = 'qqhfznbctwdmrhkh';  // Replace with your Gmail password or app-specific password
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
 
         // Email content
-        $mail->setFrom('duchai2211@gmail.com', 'Duc Hai');
+        $mail->setFrom('quochiep1406@gmail.com', 'Hoàng Quốc Hiệp');
         $mail->addAddress($mailR, 'Recipient Name');
         $mail->Subject = 'Notify';
         $mail->Body = 'Đăng ký thành công tài khoản.';

@@ -94,7 +94,7 @@ class ArticleController
 
 
         $result = $articleService->UpdateArticle($ma_bviet, $tieude, $baihat, $category_id, $tomtat, $noidung, $author_id, $current_time, $hinhanh);
-        $target='C:/xampp/htdocs/CSE485_2023_BTTH02/views/image/songs/'.basename($_FILES['txtHinhanh']['name']);
+        $target='C:/xampp/htdocs/CSE485_2023_BTTH03/bai_3/views/image/songs/'.basename($_FILES['txtHinhanh']['name']);
         move_uploaded_file($hinhanh_tmp, $target);
         if($result) {
             header("Location: ./index.php?controller=article&action=list");
@@ -146,7 +146,7 @@ class ArticleController
         // {
         $articleService = new ArticleService();
         $result = $articleService->CreateArticle($tieude, $baihat, $category_id, $tomtat, $noidung, $author_id, $current_time, $hinhanh);
-        $target='C:/xampp/htdocs/CSE485_2023_BTTH02/views/image/songs/'.basename($_FILES['txtHinhanh']['name']);
+        $target='C:/xampp/htdocs/CSE485_2023_BTTH03/bai_3/views/image/songs/'.basename($_FILES['txtHinhanh']['name']);
         move_uploaded_file($hinhanh_tmp, $target);
         if($result) {
             header("Location: ./index.php?controller=article&action=list");

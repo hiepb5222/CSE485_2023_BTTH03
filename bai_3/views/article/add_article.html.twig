@@ -35,7 +35,7 @@
                         <span class="input-group-text" style="width: 100px" id="lblTacGia">Tác giả</span>
                         <select class="form-select" aria-label="Default select example" id="ten_tgia" name="txtTacgia" >
                         {% for author in authors %}
-							<option value='{{author.ma_tgia}}'>{{author.ten_tgia }}</option>
+							<option value='{{author.author_id}}'>{{author.author_name }}</option>
 						{% endfor %}
                             </select>
 

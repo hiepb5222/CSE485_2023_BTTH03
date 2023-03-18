@@ -80,12 +80,27 @@ class MemberService
         }
         return false; 
     }
-    public function signupMember($name, $email, $user, $pass,$is_admin)
+    public function CheckEmail($code_hash){
+        $dbConn = new DBConnection();
+        $conn = $dbConn->getConnection();
+        $sqlCheck="SELECT * FROM users WHERE user_hash='$code_hash'";
+        $resultCheck=mysqli_query($conn,$sqlCheck);
+        if(mysqli_num_rows($resultCheck)<0){
+                return false;
+        }
+        else{
+        $sql="UPDATE users SET active=1 WHERE user_hash='$code_hash'";
+        $result=mysqli_query($conn,$sql);
+        return true;
+        }
+
+    }
+    public function signupMember($name, $user, $email, $pass,$user_hash,$pass_hash)
     {
         
         $dbConn = new DBConnection();
         $conn = $dbConn->getConnection();
-        $sql = "INSERT INTO users VALUES ('','$name','$email','$user','$pass','$is_admin')";
+        $sql = "INSERT INTO users(name_user,user_name, user_email ,user_pass,user_hash,pass_hash) VALUES ('$name','$user','$email','$pass','$user_hash','$pass_hash')";
         $stmt = $conn->query($sql);
         if ($stmt) {
             return true;
